@@ -2,8 +2,8 @@
 
 namespace App\Repositories;
 
-use App\Models\Module;
 use App\Models\Support;
+use App\Models\User;
 
 class SupportRepository
 {
@@ -17,16 +17,29 @@ class SupportRepository
     /**
      * @return mixed
      */
-    public function getAllModulesByCourseId(string $courseId)
+    public function getAllSupports(array $filters = []): mixed
     {
-        return $this->entity->where('course_id', $courseId)->get();
+        return $this->getUserAuth()
+                    ->supports()
+                    ->where(function ($query) use ($filters) {
+                        if (isset($filters['lesson'])){
+                            $query->where('lesson_id', $filters['lesson']);
+                        }
+                        if (isset($filters['status'])){
+                            $query->where('status', $filters['status']);
+                        }
+                        if (isset($filters['filter'])){
+                            $filter = $filters['filter'];
+                            $query->where('description', 'LIKE', "%{$filter}%" );
+                        }
+                    })
+                    ->get();
     }
 
-    /**
-     * @return Module
-     */
-    public function getModuleByCourseId(string $id, string $courseId): Module
+    private function getUserAuth():User
     {
-        return $this->entity->where('course_id', $courseId)->findOrFail($id);
+        // return auth()->user();
+        return User::first();
     }
+
 }

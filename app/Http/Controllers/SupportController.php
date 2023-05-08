@@ -6,6 +6,8 @@ use App\Http\Resources\SupportResource;
 use App\Models\Support;
 use App\Repositories\SupportRepository;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
+use Illuminate\Http\Response;
 
 class SupportController extends Controller
 {
@@ -19,17 +21,17 @@ class SupportController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return \Illuminate\Http\Resources\Json\AnonymousResourceCollection
+     * @return AnonymousResourceCollection
      */
-    public function index(Request $request)
+    public function index(Request $request): AnonymousResourceCollection
     {
-        return SupportResource::collection($this->repository->getSupports());
+        return SupportResource::collection($this->repository->getAllSupports($request->all()));
     }
 
     /**
      * Show the form for creating a new resource.
      *
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function create()
     {
@@ -40,7 +42,7 @@ class SupportController extends Controller
      * Store a newly created resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function store(Request $request)
     {
@@ -51,7 +53,7 @@ class SupportController extends Controller
      * Display the specified resource.
      *
      * @param  \App\Models\Support  $support
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function show(Support $support)
     {
@@ -62,7 +64,7 @@ class SupportController extends Controller
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Support  $support
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function edit(Support $support)
     {
@@ -74,7 +76,7 @@ class SupportController extends Controller
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \App\Models\Support  $support
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function update(Request $request, Support $support)
     {
@@ -85,7 +87,7 @@ class SupportController extends Controller
      * Remove the specified resource from storage.
      *
      * @param  \App\Models\Support  $support
-     * @return \Illuminate\Http\Response
+     * @return Response
      */
     public function destroy(Support $support)
     {
