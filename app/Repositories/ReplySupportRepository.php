@@ -3,13 +3,13 @@
 namespace App\Repositories;
 
 use App\Http\Resources\SupportResource;
-use App\Models\ReplySupport;
 use App\Models\Support;
 use App\Models\User;
-use Illuminate\Database\Eloquent\Model;
 
-
-class SupportRepository
+/**
+ *
+ */
+class ReplySupportRepository
 {
     /**
      * @var Support
@@ -47,50 +47,28 @@ class SupportRepository
     }
 
     /**
-     * @param array $data
-     * @return Model
-     */
-    public function createNewSupport(array $data) : Model
-    {
-        return $this->getUserAuth()->supports()->create([
-            'lesson_id' => $data['lesson'],
-            'description' => $data['description'],
-            'status' => $data['status'],
-        ]);
-
-    }
-
-    /**
-     * @param string $supportId
-     * @param array $data
-     * @return Model
-     */
-    public function createReplyToSupportId(string $supportId, array $data) : Model
-    {
-        $user = $this->getUserAuth();
-        return $this->getSupport($supportId)->replies()->create([
-            'description' => $data['description'],
-            'user_id' => $user->id,
-        ]);
-
-    }
-
-    /**
-     * @param string $supportId
-     * @return Support
-     */
-    private function getSupport(string $supportId):Support
-    {
-        return $this->entity->findOrFail($supportId);
-    }
-
-    /**
      * @return User
      */
     private function getUserAuth():User
     {
         // return auth()->user();
         return User::first();
+    }
+
+    /**
+     * @param array $data
+     * @return Support
+     */
+    public function createNewSupport(array $data) : Support
+    {
+        $support = $this->getUserAuth()->supports()->create([
+            'lesson_id' => $data['lesson'],
+            'description' => $data['description'],
+            'status' => $data['status'],
+        ]);
+
+        return $support;
+
     }
 
 }

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreReplySupport;
 use App\Http\Requests\StoreSupport;
+use App\Http\Resources\ReplySupportResource;
 use App\Http\Resources\SupportResource;
 use App\Models\Support;
 use App\Repositories\SupportRepository;
@@ -30,16 +32,6 @@ class SupportController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param StoreSupport $request
@@ -55,7 +47,31 @@ class SupportController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Support  $support
+     * @param StoreReplySupport $request
+     * @param string $supportId
+     * @return ReplySupportResource
+     */
+    public function createReply(StoreReplySupport $request,string $supportId): ReplySupportResource
+    {
+        $reply = $this->repository->createReplyToSupportId($supportId, $request->validated());
+
+        return new ReplySupportResource($reply);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return Response
+     */
+    public function create()
+    {
+        //
+    }
+
+    /**
+     * Display the specified resource.
+     *
+     * @param Support $support
      * @return Response
      */
     public function show(Support $support)
@@ -66,7 +82,7 @@ class SupportController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Support  $support
+     * @param Support $support
      * @return Response
      */
     public function edit(Support $support)
@@ -78,7 +94,7 @@ class SupportController extends Controller
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Support  $support
+     * @param Support $support
      * @return Response
      */
     public function update(Request $request, Support $support)
@@ -89,7 +105,7 @@ class SupportController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Models\Support  $support
+     * @param Support $support
      * @return Response
      */
     public function destroy(Support $support)
