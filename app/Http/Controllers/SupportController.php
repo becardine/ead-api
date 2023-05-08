@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreSupport;
 use App\Http\Resources\SupportResource;
 use App\Models\Support;
 use App\Repositories\SupportRepository;
@@ -41,12 +42,14 @@ class SupportController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @return Response
+     * @param StoreSupport $request
+     * @return SupportResource
      */
-    public function store(Request $request)
+    public function store(StoreSupport $request)
     {
-        //
+        $support = $this->repository->createNewSupport($request->validated());
+
+        return new SupportResource($support);
     }
 
     /**

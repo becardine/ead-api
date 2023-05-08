@@ -2,13 +2,23 @@
 
 namespace App\Repositories;
 
+use App\Http\Resources\SupportResource;
 use App\Models\Support;
 use App\Models\User;
 
+/**
+ *
+ */
 class SupportRepository
 {
+    /**
+     * @var Support
+     */
     protected $entity;
 
+    /**
+     * @param Support $model
+     */
     public function __construct(Support $model)
     {
         $this->entity = $model;
@@ -36,10 +46,29 @@ class SupportRepository
                     ->get();
     }
 
+    /**
+     * @return User
+     */
     private function getUserAuth():User
     {
         // return auth()->user();
         return User::first();
+    }
+
+    /**
+     * @param array $data
+     * @return Support
+     */
+    public function createNewSupport(array $data) : Support
+    {
+        $support = $this->getUserAuth()->supports()->create([
+            'lesson_id' => $data['lesson'],
+            'description' => $data['description'],
+            'status' => $data['status'],
+        ]);
+
+        return $support;
+
     }
 
 }

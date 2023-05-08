@@ -10,7 +10,9 @@ Route::get('/courses/{id}', [CourseController::class, 'show']);
 Route::get('/courses/{id}/modules', [ModuleController::class, 'index']);
 
 Route::get('/modules/{id}/lessons', [LessonController::class, 'index']);
+
 Route::get('/supports', [SupportController::class, 'index']);
+Route::post('/supports', [SupportController::class, 'store']);
 
 Route::get('/', function () {
     return response()->json([
