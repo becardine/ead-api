@@ -8,7 +8,7 @@ use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 use JsonSerializable;
 
-class SupportResource extends JsonResource
+class UserResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -19,11 +19,9 @@ class SupportResource extends JsonResource
     public function toArray($request): array|JsonSerializable|Arrayable
     {
         return [
-            'status' => $this->status,
-            'status_label' => $this->statusOptions[$this->status],
-            'description' => $this->description,
-            'user' => new UserResource($this->user),
-            'lesson' => new LessonResource($this->lesson),
+            'id' => $this->id,
+            'name' => $this->name,
+            'email' => $this->email,
         ];
     }
 }
