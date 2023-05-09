@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\StoreReplySupport;
+use App\Http\Requests\StoreReplySupportRequest;
 use App\Http\Resources\ReplySupportResource;
 use App\Repositories\ReplySupportRepository;
 use Illuminate\Http\Request;
@@ -38,10 +38,10 @@ class ReplySupportController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param StoreReplySupport $request
+     * @param StoreReplySupportRequest $request
      * @return ReplySupportResource
      */
-    public function store(StoreReplySupport $request): ReplySupportResource
+    public function store(StoreReplySupportRequest $request): ReplySupportResource
     {
         $reply = $this->repository->createReplyToSupport($request->validated());
 

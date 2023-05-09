@@ -2,9 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\StoreViewRequest;
 use App\Http\Resources\LessonResource;
 use App\Models\Lesson;
 use App\Repositories\LessonRepository;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 
 class LessonController extends Controller
@@ -26,68 +28,25 @@ class LessonController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(Request $request)
-    {
-        //
-    }
-
-    /**
      * Display the specified resource.
      *
      * @param  \App\Models\Lesson  $lesson
      * @return LessonResource
      */
-    public function show(Lesson $lesson, string $moduleId)
+    public function show(Lesson $id)
     {
-        return new LessonResource($this->repository->getLessonByCourseId($lesson->id, $moduleId));
+        return new LessonResource($this->repository->getLessonById($id));
     }
 
     /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Lesson  $lesson
-     * @return \Illuminate\Http\Response
+     * @return JsonResponse
      */
-    public function edit(Lesson $lesson)
+    public function viewed(StoreViewRequest $request): JsonResponse
     {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Lesson  $lesson
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, Lesson $lesson)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Lesson  $lesson
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Lesson $lesson)
-    {
-        //
+        $this->repository->markLessonViewed($request->lesson);
+        return response()->json(['success' => true]);
     }
 }
