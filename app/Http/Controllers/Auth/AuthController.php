@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AuthRequest;
+use App\Http\Resources\UserResource;
 use App\Models\User;
 use Illuminate\Support\Facades\Hash;
 use Nette\Schema\ValidationException;
@@ -29,6 +30,12 @@ class AuthController extends Controller
         return response()->json([
             'token' => $token
         ]);
+    }
+
+    public function me(){
+       $user =  auth()->user();
+
+        return new UserResource($user);
     }
 
     public function logout(){
