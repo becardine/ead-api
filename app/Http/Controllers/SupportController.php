@@ -45,6 +45,16 @@ class SupportController extends Controller
     }
 
     /**
+     * Display a listing of the resource.
+     *
+     * @return AnonymousResourceCollection
+     */
+    public function mySupports(Request $request): AnonymousResourceCollection
+    {
+        return SupportResource::collection($this->repository->getMySupports($request->all()));
+    }
+
+    /**
      * Show the form for creating a new resource.
      *
      * @return Response
