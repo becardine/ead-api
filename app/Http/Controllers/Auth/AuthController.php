@@ -10,6 +10,7 @@ use Nette\Schema\ValidationException;
 
 class AuthController extends Controller
 {
+
     public function auth(AuthRequest $authRequest)
     {
         $user = User::where('email', $authRequest->email)->first();
@@ -28,5 +29,11 @@ class AuthController extends Controller
         return response()->json([
             'token' => $token
         ]);
+    }
+
+    public function logout(){
+        auth()->user()->tokens()->delete();
+
+        return response()->json(['success' => true]);
     }
 }
