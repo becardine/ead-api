@@ -2,15 +2,16 @@
 
 namespace App\Repositories;
 
-use App\Http\Resources\SupportResource;
-use App\Models\ReplySupport;
 use App\Models\Support;
 use App\Models\User;
+use App\Repositories\Traits\RepositoryTrait;
 use Illuminate\Database\Eloquent\Model;
 
 
 class SupportRepository
 {
+    use RepositoryTrait;
+
     /**
      * @var Support
      */
@@ -63,35 +64,11 @@ class SupportRepository
 
     /**
      * @param string $supportId
-     * @param array $data
-     * @return Model
-     */
-    public function createReplyToSupportId(string $supportId, array $data) : Model
-    {
-        $user = $this->getUserAuth();
-        return $this->getSupport($supportId)->replies()->create([
-            'description' => $data['description'],
-            'user_id' => $user->id,
-        ]);
-
-    }
-
-    /**
-     * @param string $supportId
      * @return Support
      */
     private function getSupport(string $supportId):Support
     {
         return $this->entity->findOrFail($supportId);
-    }
-
-    /**
-     * @return User
-     */
-    private function getUserAuth():User
-    {
-        // return auth()->user();
-        return User::first();
     }
 
 }

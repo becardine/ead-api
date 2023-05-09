@@ -45,20 +45,6 @@ class SupportController extends Controller
     }
 
     /**
-     * Display the specified resource.
-     *
-     * @param StoreReplySupport $request
-     * @param string $supportId
-     * @return ReplySupportResource
-     */
-    public function createReply(StoreReplySupport $request,string $supportId): ReplySupportResource
-    {
-        $reply = $this->repository->createReplyToSupportId($supportId, $request->validated());
-
-        return new ReplySupportResource($reply);
-    }
-
-    /**
      * Show the form for creating a new resource.
      *
      * @return Response
