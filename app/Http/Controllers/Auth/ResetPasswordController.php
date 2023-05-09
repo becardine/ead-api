@@ -46,6 +46,6 @@ class ResetPasswordController extends Controller
 
         return $status === Password::PASSWORD_RESET
             ? response()->json(['status' => __($status)])
-            : response()->json(['email' => [__($status)]], 422);
+            : response()->json(['email' => [__($status)], 422]);
     }
 }
