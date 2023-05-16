@@ -8,11 +8,7 @@ use Illuminate\Support\Str;
 
 trait RepositoryTrait
 {
-
-    /**
-     * @return Authenticatable
-     */
-    private function getUserAuth(): Authenticatable
+    private function getUserAuth(): User
     {
         return auth()->user();
     }

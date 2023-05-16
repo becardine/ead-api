@@ -23,21 +23,16 @@ class ReplySupportRepository
     {
         $this->entity = $model;
     }
-
-    /**
-     * @param array $data
-     * @return Model
-     */
-    public function createReplyToSupport(array $data) : Model
+    public function createReplyToSupport(array $data)
     {
         $user = $this->getUserAuth();
 
-        return $this->entity->create([
-            'support_id' => $data['support'],
-            'description' => $data['description'],
-            'user_id' => $user->id,
-        ]);
-
+        return $this->entity
+            ->create([
+                'support_id' => $data['support'],
+                'description' => $data['description'],
+                'user_id' => $user->id,
+            ]);
     }
 
 }

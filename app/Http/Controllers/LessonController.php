@@ -33,7 +33,7 @@ class LessonController extends Controller
      * @param  \App\Models\Lesson  $lesson
      * @return LessonResource
      */
-    public function show(Lesson $id)
+    public function show($id)
     {
         return new LessonResource($this->repository->getLessonById($id));
     }

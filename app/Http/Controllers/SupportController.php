@@ -26,9 +26,11 @@ class SupportController extends Controller
      *
      * @return AnonymousResourceCollection
      */
-    public function index(Request $request): AnonymousResourceCollection
+    public function index(Request $request)
     {
-        return SupportResource::collection($this->repository->getAllSupports($request->all()));
+        $supports = $this->repository->getSupports($request->all());
+
+        return SupportResource::collection($supports);
     }
 
     /**
@@ -39,7 +41,8 @@ class SupportController extends Controller
      */
     public function store(StoreSupportRequest $request)
     {
-        $support = $this->repository->createNewSupport($request->validated());
+        $support = $this->repository
+            ->createNewSupport($request->validated());
 
         return new SupportResource($support);
     }
@@ -47,65 +50,11 @@ class SupportController extends Controller
     /**
      * Display a listing of the resource.
      *
-     * @return AnonymousResourceCollection
      */
-    public function mySupports(Request $request): AnonymousResourceCollection
+    public function mySupports(Request $request)
     {
-        return SupportResource::collection($this->repository->getMySupports($request->all()));
-    }
+        $supports = $this->repository->getMySupports($request->all());
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
-     * Display the specified resource.
-     *
-     * @param Support $support
-     * @return Response
-     */
-    public function show(Support $support)
-    {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param Support $support
-     * @return Response
-     */
-    public function edit(Support $support)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param Support $support
-     * @return Response
-     */
-    public function update(Request $request, Support $support)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param Support $support
-     * @return Response
-     */
-    public function destroy(Support $support)
-    {
-        //
+        return SupportResource::collection($supports);
     }
 }

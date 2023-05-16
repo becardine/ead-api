@@ -28,57 +28,65 @@ class SupportRepository
     public function getMySupports(array $filters = [])
     {
         $filters['user'] = true;
-        return $this->getAllSupports($filters);
+
+        return $this->getSupports($filters);
     }
 
-    /**
-     * @param array $filters
-     * @return mixed
-     */
-    public function getAllSupports(array $filters = []): mixed
+    public function getSupports(array $filters = [])
     {
         return $this->entity
-                    ->where(function ($query) use ($filters) {
-                        if (isset($filters['lesson'])){
-                            $query->where('lesson_id', $filters['lesson']);
-                        }
-                        if (isset($filters['status'])){
-                            $query->where('status', $filters['status']);
-                        }
-                        if (isset($filters['filter'])){
-                            $filter = $filters['filter'];
-                            $query->where('description', 'LIKE', "%{$filter}%" );
-                        }
-                        if (isset($filters['user'])){
-                            $user = $this->getUserAuth();
-                            $query->where('user_id', $user->id);
-                        }
-                    })
-                    ->orderBy('updated_at', 'DESC')
-                    ->get();
+            ->where(function ($query) use ($filters) {
+                if (isset($filters['lesson'])) {
+                    $query->where('lesson_id', $filters['lesson']);
+                }
+
+                if (isset($filters['status'])) {
+                    $query->where('status', $filters['status']);
+                }
+
+                if (isset($filters['filter'])) {
+                    $filter = $filters['filter'];
+                    $query->where('description', 'LIKE', "%{$filter}%");
+                }
+
+                if (isset($filters['user'])) {
+                    $user = $this->getUserAuth();
+
+                    $query->where('user_id', $user->id);
+                }
+            })
+            ->with('replies')
+            ->orderBy('updated_at')
+            ->get();
     }
 
-    /**
-     * @param array $data
-     * @return Model
-     */
-    public function createNewSupport(array $data) : Model
+    public function createNewSupport(array $data): Support
     {
-        return $this->getUserAuth()->supports()->create([
-            'lesson_id' => $data['lesson'],
-            'description' => $data['description'],
-            'status' => $data['status'],
-        ]);
+        $support = $this->getUserAuth()
+            ->supports()
+            ->create([
+                'lesson_id' => $data['lesson'],
+                'description' => $data['description'],
+                'status' => $data['status'],
+            ]);
 
+        return $support;
     }
 
-    /**
-     * @param string $supportId
-     * @return Support
-     */
-    private function getSupport(string $supportId):Support
+    public function createReplyToSupportId(string $supportId, array $data)
     {
-        return $this->entity->findOrFail($supportId);
+        $user = $this->getUserAuth();
+
+        return $this->getSupport($supportId)
+            ->replies()
+            ->create([
+                'description' => $data['description'],
+                'user_id' => $user->id,
+            ]);
     }
 
+    private function getSupport(string $id)
+    {
+        return $this->entity->findOrFail($id);
+    }
 }

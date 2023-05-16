@@ -26,17 +26,17 @@ class Support extends Model
         'C' => 'Finalizado',
     ];
 
-    public function user(): BelongsTo
+    public function user()
     {
         return $this->belongsTo(User::class);
     }
 
-    public function lesson(): BelongsTo
+    public function lesson()
     {
         return $this->belongsTo(Lesson::class);
     }
 
-    public function replies(): HasMany
+    public function replies()
     {
         return $this->hasMany(ReplySupport::class);
     }

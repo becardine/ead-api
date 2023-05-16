@@ -42,7 +42,7 @@ class LessonRepository
      * @param string $id
      * @return Lesson
      */
-    public function markLessonViewed(string $lessonId): Lesson
+    public function markLessonViewed(string $lessonId)
     {
         $user = $this->getUserAuth();
 
