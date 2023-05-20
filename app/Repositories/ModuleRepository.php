@@ -3,6 +3,9 @@
 namespace App\Repositories;
 
 use App\Models\Module;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 
 class ModuleRepository
 {
@@ -18,14 +21,16 @@ class ModuleRepository
      */
     public function getAllModulesByCourseId(string $courseId)
     {
-        return $this->entity->where('course_id', $courseId)->get();
+        return $this->entity->with('lessons.views')->where('course_id', $courseId)->get();
     }
 
     /**
-     * @return Module
+     * @param string $id
+     * @param string $courseId
+     * @return Builder|Builder[]|Collection|Model|null
      */
-    public function getModuleByCourseId(string $id, string $courseId): Module
+    public function getModuleByCourseId(string $id, string $courseId)
     {
-        return $this->entity->where('course_id', $courseId)->findOrFail($id);
+        return $this->entity->with('lessons.views')->where('course_id', $courseId)->findOrFail($id);
     }
 }

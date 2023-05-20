@@ -46,7 +46,7 @@ class LessonRepository
     {
         $user = $this->getUserAuth();
 
-        $view = $user->views()->where('lesson_id', $lessonId)->first();
+        $view = $user->views()->with('supports.replies')->where('lesson_id', $lessonId)->first();
 
         if ($view) {
             return $view->update([
