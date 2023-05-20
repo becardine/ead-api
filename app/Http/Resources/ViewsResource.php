@@ -5,7 +5,7 @@ namespace App\Http\Resources;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
 
-class LessonResource extends JsonResource
+class ViewsResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +16,7 @@ class LessonResource extends JsonResource
     public function toArray($request)
     {
         return [
-            'id' => $this->id,
-            'title' => $this->name,
-            'description' => $this->description,
-            'video' => $this->video,
-            'url' => $this->url,
-            'views' => ViewsResource::collection($this->whenLoaded('views')),
+            'views' => $this->views,
         ];
     }
 }

@@ -40,7 +40,7 @@ class LessonRepository
 
     /**
      * @param string $id
-     * @return Lesson
+     * @return bool|\Illuminate\Database\Eloquent\Model|int
      */
     public function markLessonViewed(string $lessonId)
     {
